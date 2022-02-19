@@ -1,0 +1,13 @@
+export const AUTH_START = 'AUTH_START';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+export const AUTH_AUTO_LOGIN = 'AUTH_AUTO_LOGIN';
+
+export const PAPER_CREATED  = "PAPER_CREATED"
+export const PAPER_IS_CREATING  = "PAPER_IS_CREATING"
+export const PAPER_CREATED_2  = "PAPER_CREATED_2"
+export const PAPER_IS_CREATING_2  = "PAPER_IS_CREATING_2"
+export const PAPER_CREATED_3  = "PAPER_CREATED_3"
+export const PAPER_IS_CREATING_3  = "PAPER_IS_CREATING_3"
+export const FETCH_PAPER  = "FETCH_PAPER"
