@@ -1,33 +1,42 @@
+// ***************************************************************************************************************************************************************************************
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "../../axios/axios";
-import { Link } from "react-router-dom";
 import {
   Paper_Created_2,
   Paper_is_creating_2,
 } from "../../store/store/actions/auth";
-import StudentDetailse from "./StudentDetailse";
+import StudentDetailse from "../DataFromServer/StudentDetailse";
 import "../QuestionButtons/SingleChoiceQuestion/SingleChoise.css";
 import Spinner from "../Spinner/Spinner";
-import { Button } from "reactstrap";
-class DataFromAndToServer extends Component {
+import Opps from "./opps";
+class DataFromGeneratedLink extends Component {
   state = {
     final: [],
     Responce: [],
     oldData: [],
     check: false,
     SubmitClicked: false,
-    btnClicked: false,
+    NotFound: false,
   };
 
   componentDidMount() {
     this.props.onCreating_2();
-    axios
-      .get("/Papers/" + this.props.match.params.id + ".json")
-      .then((responce) => {
-        this.setState({ final: responce.data });
-        this.props.onCreated_2();
-      });
+    if (this.props.match.params.id === "paper0") {
+      alert("Did't Get Anything");
+      this.setState({ NotFound: true });
+    } else {
+      axios
+        .get("/Papers/" + this.props.match.params.id + ".json")
+        .then((responce) => {
+          if (responce.data === null) {
+            this.setState({ NotFound: true });
+          }
+          this.setState({ final: responce.data });
+          this.props.onCreated_2();
+        })
+        .catch((err) => alert(err));
+    }
   }
 
   updateSingleChoiceAnswer = (e) => {
@@ -48,16 +57,6 @@ class DataFromAndToServer extends Component {
 
     let oldArray = [...this.state.Responce, answer];
     this.setState({ Responce: oldArray });
-  };
-
-  onchangeHandler = () => {
-    navigator.clipboard.writeText(
-      `https://papermaker-c81e4.web.app/GenerateLink/paper${
-        this.props.match.params.id.split("paper")[1]
-      }/${this.props.userId}`
-    );
-
-    this.setState({ btnClicked: true });
   };
 
   updateMultipleChiceAnswer = (e) => {
@@ -126,14 +125,15 @@ class DataFromAndToServer extends Component {
   PostResponceToServer = () => {
     this.props.onCreating_2();
     axios
-      .get("/Responces/ResponceOf" + this.props.id + ".json")
+      .get("/Responces/ResponceOf" + this.props.match.params.id + ".json")
       .then((res) => {
         if (res.data !== null) this.setState({ oldData: res.data });
       })
       .catch((err) => alert(err));
+
     axios
-      .put("/Responces/ResponceOf" + this.props.id + ".json", {
-        userId: this.props.userId,
+      .put("/Responces/ResponceOf" + this.props.match.params.id + ".json", {
+        userId: this.props.match.params.userId,
       })
       .then((res) => {
         this.setState({ SubmitClicked: true });
@@ -141,9 +141,10 @@ class DataFromAndToServer extends Component {
       })
       .catch((err) => alert(err));
   };
+
   render() {
     let QuestionType = null;
-    if (this.state.final.length !== 0) {
+    if (this.state.final !== null && this.state.final.length !== 0) {
       let Data = Object.values(this.state.final);
       let l = 0;
       let first = null;
@@ -220,6 +221,7 @@ class DataFromAndToServer extends Component {
                   className={`heading ${
                     i === 0 ? "showHeading" : "hideHeading"
                   }`}
+                  style={{ top: "0px" }}
                 >
                   {QuestionTypeDiscription}
                 </p>
@@ -234,7 +236,7 @@ class DataFromAndToServer extends Component {
                   <div className="singleChoiseQuestion sin">
                     <div style={{ display: "flex" }}>
                       <span style={{ display: "inlineBlock" }}>
-                        Question:{l}{" "}
+                        Question:{l}
                       </span>
                       <span className="Question" id={i}>
                         {QuestionData[0]} ?
@@ -249,18 +251,14 @@ class DataFromAndToServer extends Component {
                             style={{ width: "-webkit-fill-available" }}
                           >
                             {option}
-                          </div>
-
-                          <span
+                          </div>{" "}
+                          <div
                             className={`responce , ${
                               QuestionData[1] === "Paragraph Type Question"
                                 ? "hide"
                                 : "show"
                             }`}
-                            style={{
-                              width: "-webkit-fill-available",
-                              marginTop: "-37px",
-                            }}
+                            style={{ width: "-webkit-fill-available" }}
                           >
                             {" "}
                             Your Selected Answer is{" "}
@@ -281,7 +279,7 @@ class DataFromAndToServer extends Component {
                                 }
                               })}
                             </span>
-                          </span>
+                          </div>
                         </div>
                       </span>
                     </div>
@@ -295,6 +293,7 @@ class DataFromAndToServer extends Component {
         }
         return (
           <div>
+            {" "}
             <div>{first}</div>
           </div>
         );
@@ -314,7 +313,7 @@ class DataFromAndToServer extends Component {
               show={false}
               details={this.state.Responce}
               userId={this.props.userId}
-              paperId={this.props.id}
+              paperId={this.props.match.params.id}
             />
           </div>
         ) : (
@@ -333,43 +332,10 @@ class DataFromAndToServer extends Component {
 
     if (this.props.loading_2) finalData = <Spinner />;
 
-    // return <div className="widthSetter">{finalData}</div>;
-    return (
-      <div>
-        <div
-          className="NavBar d-flex justify-content-between align-items-center"
-          style={{ padding: "13px" }}
-        >
-          <div className="Icon_Container nav-item" style={{ left: "0px" }}>
-            <div onClick={this.changeHandler}>
-              <Link to="/allPapers">
-                {" "}
-                <i class="fa fa-arrow-circle-left"></i>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className="widthSetter">{finalData}</div>
-        <div style={{ position: "absolute" }}>
-          <i>
-            <small
-              style={{
-                color: "green",
-                fontSize: "small",
-                fontWeight: "bolder",
-              }}
-            >
-              Generated Link →{" "}
-              {`https://papermaker-c81e4.web.app/GenerateLink/paper${
-                this.props.match.params.id.split("paper")[1]
-              }/${this.props.userId}`}
-            </small>
-          </i>
-          <button className="btnHandler" onClick={this.onchangeHandler}>
-            {this.state.btnClicked ? "Copied" : "Copy"}
-          </button>
-        </div>
-      </div>
+    return this.state.NotFound ? (
+      <Opps />
+    ) : (
+      <div className="widthSetter">{finalData}</div>
     );
   }
 }
@@ -378,7 +344,6 @@ const mapStateToprops = (state) => {
   return {
     userId: state.reducer.userId,
     loading_2: state.reducer.loading_2,
-    RandomNo: state.reducer.randomNo,
   };
 };
 
@@ -392,4 +357,4 @@ const mapDispathchToProps = (dispatch) => {
 export default connect(
   mapStateToprops,
   mapDispathchToProps
-)(DataFromAndToServer);
+)(DataFromGeneratedLink);
