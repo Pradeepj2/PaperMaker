@@ -146,11 +146,16 @@
 .dropdown_content {
   position: absolute;
   top: 19%;
-
   background-color: whitesmoke;
   transform: translateX(-100%);
   z-index: 999999999999999999999999;
   transition: 0.8s ease-in-out;
+}
+
+.dropdown_Show {
+  display: block;
+  transform: translateX(0%);
+  transition: ease-in-out 0.7s;
 }
 
 /* Change color of dropdown links on hover */
@@ -188,12 +193,6 @@
   background-color: #333131;
   margin: 6px 15px;
   transition: 0.4s;
-}
-
-.dropdown_Show {
-  display: block;
-  transform: translateX(0%);
-  transition: ease-in-out 0.7s;
 }
 
 /* Rotate first bar */

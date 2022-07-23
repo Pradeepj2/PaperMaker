@@ -18,6 +18,7 @@ class DataFromAndToServer extends Component {
     check: false,
     SubmitClicked: false,
     btnClicked: false,
+    clicked: false,
   };
 
   componentDidMount() {
@@ -124,6 +125,7 @@ class DataFromAndToServer extends Component {
   };
 
   PostResponceToServer = () => {
+    this.setState({ clicked: true });
     this.props.onCreating_2();
     axios
       .get("/Responces/ResponceOf" + this.props.id + ".json")
@@ -350,25 +352,29 @@ class DataFromAndToServer extends Component {
           </div>
         </div>
         <div className="widthSetter">{finalData}</div>
-        <div style={{ position: "absolute" }}>
-          <i>
-            <small
-              style={{
-                color: "green",
-                fontSize: "small",
-                fontWeight: "bolder",
-              }}
-            >
-              Generated Link →{" "}
-              {`https://papermaker-c81e4.web.app/GenerateLink/paper${
-                this.props.match.params.id.split("paper")[1]
-              }/${this.props.userId}`}
-            </small>
-          </i>
-          <button className="btnHandler" onClick={this.onchangeHandler}>
-            {this.state.btnClicked ? "Copied" : "Copy"}
-          </button>
-        </div>
+        {!this.state.clicked ? (
+          <div style={{ position: "absolute" }}>
+            <i>
+              <small
+                style={{
+                  color: "green",
+                  fontSize: "small",
+                  fontWeight: "bolder",
+                }}
+              >
+                Generated Link →{" "}
+                {`https://papermaker-c81e4.web.app/GenerateLink/paper${
+                  this.props.match.params.id.split("paper")[1]
+                }/${this.props.userId}`}
+              </small>
+            </i>
+            <button className="btnHandler" onClick={this.onchangeHandler}>
+              {this.state.btnClicked ? "Copied" : "Copy"}
+            </button>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     );
   }

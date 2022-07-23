@@ -150,6 +150,12 @@
   animation: demo 1s linear;
 }
 
+@media (max-width: 1440px) {
+  .links {
+    bottom: 35%;
+  }
+}
+
 @keyframes demo {
   0% {
     opacity: 0.1;

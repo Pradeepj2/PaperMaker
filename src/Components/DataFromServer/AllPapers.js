@@ -100,7 +100,7 @@ class AllQuestions extends Component {
           className={`dropdown_content ${
             this.state.toggle ? `dropdown_Show` : ``
           }`}
-          style={{ top: "6%" }}
+          style={{ top: "6%", zIndex: "9999999999999" }}
         >
           <Link style={{ textDecoration: "none" }} to="/createPapers">
             <strong>Create Paper</strong>

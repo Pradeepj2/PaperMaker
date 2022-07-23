@@ -23,6 +23,12 @@
   width: 100vw;
 }
 
+@media (max-width: 617px) {
+  .data {
+    width: fit-content;
+  }
+}
+
 .shareLink {
   padding: 18px;
   border-radius: 23px;
