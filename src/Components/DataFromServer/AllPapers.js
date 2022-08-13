@@ -28,9 +28,9 @@ class AllQuestions extends Component {
       })
       .catch((err) => alert(err));
   }
-  deside = (data) => {
-    this.setState({ tempId: data.res, Clicked: true });
-  };
+  // deside = (data) => {
+  //   this.setState({ tempId: data.res, Clicked: true });
+  // };
 
   logoutbtn = () => {
     this.props.logout();
@@ -40,21 +40,26 @@ class AllQuestions extends Component {
     let Data = null;
     if (this.state.PaperCollection != null) {
       if (Object.keys(this.state.PaperCollection).length === 0) {
-        alert("You have not created any paper yet 😁😁");
-        return null;
-      }
-      let papers = Object.keys(this.state.PaperCollection);
-      Data = papers.map((res, i) => {
-        return (
-          <Link
-            className="buttonCopy"
-            to={{ pathname: `/perticularPaper/${res}` }}
-            key={i}
-          >
-            <span>{res}</span>
-          </Link>
+        // alert("You have not created any paper yet 😁😁");
+        Data = (
+          <div style={{ position: "absolute", left: "32vw", top: "28%" }}>
+            You have not created any paper yet 😁😁
+          </div>
         );
-      });
+      } else {
+        let papers = Object.keys(this.state.PaperCollection);
+        Data = papers.map((res, i) => {
+          return (
+            <Link
+              className="buttonCopy"
+              to={{ pathname: `/perticularPaper/${res}` }}
+              key={i}
+            >
+              <span>{res}</span>
+            </Link>
+          );
+        });
+      }
     }
 
     let finalData = (

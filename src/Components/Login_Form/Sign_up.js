@@ -5,6 +5,7 @@ import "./Auth.css";
 import * as actions from "../../store/store/actions/index";
 import Spinner from "../../Components/Spinner/Spinner";
 import Auth from "./Auth";
+import LoginImg from "../../Img/LoginImg.jpg";
 
 class Sign_up extends Component {
   state = {
@@ -209,7 +210,9 @@ class Sign_up extends Component {
 
     let finalData = (
       <div className="mainContiner">
-        <div className="img"></div>
+        <div className="img">
+          <img src={LoginImg}></img>
+        </div>
         <div className="Auth">
           <h3 style={{ color: "black" }}>"Sign-Up__Form"</h3>
           {errorMessage}

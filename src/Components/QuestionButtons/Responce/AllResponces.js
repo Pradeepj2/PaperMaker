@@ -34,25 +34,30 @@ class AllResponces extends Component {
     let Data = null;
     if (this.state.ResponceCollection != null) {
       if (Object.keys(this.state.ResponceCollection).length === 0) {
-        alert("No Responce yet 😁😁");
-        return null;
-      }
-      let papers = Object.keys(this.state.ResponceCollection);
-      Data = papers.map((res, i) => {
-        return (
-          <div>
-            <Link
-              style={{ textDecoration: "none" }}
-              to={{ pathname: `perticularResponce/${res}` }}
-              className="button_responce"
-              //   onClick={(e) => this.deside({ inner: e, res: res })}
-              key={i}
-            >
-              {res}
-            </Link>
+        // alert("No Responce yet 😁😁");
+        Data = (
+          <div style={{ position: "absolute", left: "32vw", top: "28%" }}>
+            No Responce yet 😔😔
           </div>
         );
-      });
+      } else {
+        let papers = Object.keys(this.state.ResponceCollection);
+        Data = papers.map((res, i) => {
+          return (
+            <div>
+              <Link
+                style={{ textDecoration: "none" }}
+                to={{ pathname: `perticularResponce/${res}` }}
+                className="button_responce"
+                //   onClick={(e) => this.deside({ inner: e, res: res })}
+                key={i}
+              >
+                {res}
+              </Link>
+            </div>
+          );
+        });
+      }
     }
 
     let finalData = <div>{!this.state.Clicked ? Data : null}</div>;

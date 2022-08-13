@@ -128,13 +128,13 @@ class DataFromAndToServer extends Component {
     this.setState({ clicked: true });
     this.props.onCreating_2();
     axios
-      .get("/Responces/ResponceOf" + this.props.id + ".json")
+      .get("/Responces/ResponceOf" + this.props.match.params.id + ".json")
       .then((res) => {
         if (res.data !== null) this.setState({ oldData: res.data });
       })
       .catch((err) => alert(err));
     axios
-      .put("/Responces/ResponceOf" + this.props.id + ".json", {
+      .put("/Responces/ResponceOf" + this.props.match.params.id + ".json", {
         userId: this.props.userId,
       })
       .then((res) => {
@@ -316,7 +316,7 @@ class DataFromAndToServer extends Component {
               show={false}
               details={this.state.Responce}
               userId={this.props.userId}
-              paperId={this.props.id}
+              paperId={this.props.match.params.id}
             />
           </div>
         ) : (
